@@ -10,17 +10,17 @@ A **production-grade Retrieval-Augmented Generation (RAG) system** built from fi
 
 | Feature | Description |
 |---|---|
-| 🎨 **Vanilla JS Dashboard** | Zero-framework frontend with Dark/Light mode |
-| 💬 **Real-time Streaming** | Server-Sent Events (SSE) for ChatGPT-like generation |
-| 📥 **Multi-Format Ingestion** | Drag-and-drop PDF, DOCX, TXT, Markdown support |
-| 🧩 **Advanced Chunking** | Fixed, Recursive, Semantic, and Parent-Child strategies |
-| 🧬 **Multiple Embeddings** | all-MiniLM-L6-v2, BGE-small, BGE-base |
-| 🗃️ **Vector Database** | Qdrant with metadata filtering and HNSW indexing |
-| 🔎 **Hybrid Retrieval** | Dense (vector) + Sparse (BM25) with RRF |
-| 🎯 **Cross-Encoder Re-ranking** | BGE-reranker for precision improvement |
-| 🤖 **Local LLM Generation** | Ollama integration (Llama 3, Mistral, Qwen) |
-| 📊 **Custom Analytics** | Pure SVG/JS charts for tracking RAG metrics |
-| 🔧 **Production Architecture** | Clean Architecture, FastAPI, Docker, CI/CD |
+| 🎨 **Vanilla JS Dashboard** | Zero-framework frontend with Dark/Light mode, real-time UI updates, and client-side pagination. |
+| 💬 **Real-time Streaming** | Server-Sent Events (SSE) for ChatGPT-like generation with dynamic source citations. |
+| 📥 **Multi-Format Ingestion** | Drag-and-drop PDF, DOCX, TXT, Markdown support via dynamic API endpoints. |
+| 🧩 **Advanced Chunking** | Fixed, Recursive, Semantic, and Parent-Child strategies. |
+| 🧬 **Multiple Embeddings** | all-MiniLM-L6-v2, BGE-small, BGE-base. |
+| 🗃️ **Vector Database** | Qdrant with metadata filtering, HNSW indexing, and timestamp extraction. |
+| 🔎 **Hybrid Retrieval** | Dense (vector) + Sparse (BM25) with RRF. |
+| 🎯 **Cross-Encoder Re-ranking** | BGE-reranker for precision improvement. |
+| 🤖 **Local LLM Generation** | Ollama integration (Llama 3, Mistral, Qwen) completely offline. |
+| 📊 **Custom Analytics** | Pure SVG/JS charts for tracking RAG metrics. |
+| 🔧 **Production Architecture** | Clean Architecture, FastAPI, Docker, CI/CD. |
 
 ---
 
@@ -28,20 +28,18 @@ A **production-grade Retrieval-Augmented Generation (RAG) system** built from fi
 
 The project includes a fully responsive, production-grade frontend dashboard built entirely from scratch using **HTML5, CSS3, and Vanilla JavaScript (ES6+)** without any frameworks (No React/Vue, No Tailwind/Bootstrap).
 
-![Dashboard Preview](docs/images/dashboard-preview.png)
-*(Placeholder for screenshot)*
-
 **Frontend Highlights:**
 - **Zero-Dependency Architecture**: Employs native ES6 Modules and native DOM APIs.
 - **Server-Sent Events (SSE)**: Decodes chunked streams natively for a "typing" effect.
+- **Live Pagination**: In-memory array slicing allows for instantaneous, backend-free pagination of large document lists.
+- **Dynamic Citations**: The UI intercepts backend data to render beautiful citation chips before streaming the answer.
 - **Custom Design System**: Uses CSS Custom Properties for immediate Light/Dark mode toggling.
-- **Pure SVG Analytics**: Renders high-performance charts without libraries like Chart.js.
 
 ---
 
 ## 🏗️ Architecture
 
-```
+```text
 User Query
     │
     ▼
@@ -98,8 +96,8 @@ User Query
 ### 1. Clone & Setup
 
 ```bash
-git clone https://github.com/yourusername/rag-system.git
-cd rag-system
+git clone https://github.com/jasmeet2000/RAG-System.git
+cd RAG-System
 
 # Create virtual environment
 python -m venv venv
@@ -153,7 +151,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 ## 📁 Project Structure
 
-```
+```text
 rag-system/
 ├── app/                    # Main application package
 │   ├── api/                # FastAPI endpoints & schemas
@@ -167,6 +165,16 @@ rag-system/
 │   ├── pipeline/           # End-to-end RAG pipeline
 │   ├── evaluation/         # RAGAS evaluation framework
 │   └── services/           # Business logic orchestration
+├── frontend/               # Vanilla JS Dashboard UI
+│   ├── assets/             # CSS & JS files
+│   │   ├── css/            # Stylesheets & pages styling
+│   │   └── js/             # API client & page logic
+│   ├── index.html          # Dashboard (Stats & Activities)
+│   ├── chat.html           # Real-time search & chat UI
+│   ├── upload.html         # Document ingestion UI
+│   ├── search.html         # Advanced Search UI
+│   ├── analytics.html      # Analytics Charts
+│   └── settings.html       # Configurations
 ├── tests/                  # Unit & integration tests
 ├── scripts/                # CLI utilities
 ├── docs/                   # Documentation
