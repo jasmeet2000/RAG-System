@@ -1,0 +1,53 @@
+/* Settings Layout */
+.settings-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-self: center;
+}
+
+.settings-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-8);
+}
+
+.settings-section {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.settings-section h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--space-2);
+}
+
+/* Adjust form groups within settings to have max width for readability */
+.settings-section .form-group {
+    max-width: 500px;
+}
+
+.settings-section .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Actions at bottom */
+.settings-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+}
+
+.settings-actions .btn {
+    height: 40px;
+    padding: 0 var(--space-6);
+}

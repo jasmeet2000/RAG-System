@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RAG System</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/pages/dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>RAG System</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="active">Dashboard</a>
+                <a href="chat.html">Chat</a>
+                <a href="upload.html">Upload</a>
+                <a href="search.html">Search</a>
+                <a href="analytics.html">Analytics</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+                </div>
+            </header>
+
+            <main class="main-content dashboard-content">
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <h3>System Status</h3>
+                        <p id="system-status" class="status-online">Checking...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Documents Indexed</h3>
+                        <p id="docs-count">...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vector DB (Qdrant)</h3>
+                        <p id="vdb-status">...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>LLM (Ollama)</h3>
+                        <p id="llm-status">...</p>
+                    </div>
+                </section>
+                
+                <section class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <ul id="activity-list" class="activity-list">
+                        <!-- Populated by JS -->
+                        <li class="empty-state">No recent activity</li>
+                    </ul>
+                    <div class="pagination-controls" id="dashboard-pagination" style="display: none;">
+                        <button class="pagination-btn" id="dashboard-prev" disabled>Previous</button>
+                        <span class="pagination-info" id="dashboard-page-info">Page 1</span>
+                        <button class="pagination-btn" id="dashboard-next">Next</button>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script type="module" src="assets/js/config.js"></script>
+    <script type="module" src="assets/js/utils.js"></script>
+    <script type="module" src="assets/js/api.js"></script>
+    <script type="module" src="assets/js/pages/dashboard.js"></script>
+</body>
+</html>

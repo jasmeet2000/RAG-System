@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rag_qdrant
+    ports:
+      - "6333:6333" # REST API
+      - "6334:6334" # gRPC API (High performance)
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag_api
+    ports:
+      - "8000:8000"
+    environment:
+      # Vector DB Configuration
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_GRPC_PORT=6334
+      
+      # Model Configuration
+      - EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+      - RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+      - OLLAMA_MODEL=llama3:latest
+      
+      # LLM Engine Configuration
+      # NOTE: Ollama typically runs directly on your Host machine, not in Docker.
+      # host.docker.internal allows the Docker container to talk to your Mac/Windows host.
+      # If on Linux, you may need to use the host's LAN IP address.
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    
+    volumes:
+      # Mount the local codebase for hot-reloading during development
+      # (Optional: remove in production)
+      - .:/app
+    depends_on:
+      - qdrant
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:
+    name: rag_qdrant_data

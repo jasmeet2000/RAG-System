@@ -1,0 +1,93 @@
+/* Dashboard Layout */
+.dashboard-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-self: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Force 4 columns side by side */
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+.stat-card {
+    padding: var(--space-6);
+}
+
+.stat-card h3 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-2);
+}
+
+.stat-card p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Status colors must override the default text color */
+.stat-card p.status-online { color: var(--success); }
+.stat-card p.status-error { color: var(--error); }
+.stat-card p.status-warning { color: var(--warning); }
+
+/* Quick Actions */
+.quick-actions h2 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-4);
+}
+
+.action-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Force 4 columns side by side */
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.action-cards .card {
+    padding: var(--space-6);
+    text-align: center;
+    font-weight: 500;
+    color: var(--primary);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+}
+
+.action-cards .card:hover {
+    border-color: var(--primary);
+    background-color: var(--bg-surface-hover);
+}
+
+/* Recent Activity */
+.recent-activity h2 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-4);
+}
+
+.activity-list {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.activity-list li {
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.activity-list li:last-child {
+    border-bottom: none;
+}
+
+.activity-list .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: var(--space-8);
+}

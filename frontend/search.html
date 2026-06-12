@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - RAG System</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/pages/search.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>RAG System</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html">Dashboard</a>
+                <a href="chat.html">Chat</a>
+                <a href="upload.html">Upload</a>
+                <a href="search.html" class="active">Search</a>
+                <a href="analytics.html">Analytics</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <h1>Semantic Search</h1>
+                <div class="header-actions">
+                    <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+                </div>
+            </header>
+
+            <main class="main-content search-content">
+                <section class="search-bar-section">
+                    <form id="search-form" class="search-form">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+                            <input type="text" id="search-input" placeholder="Search across all indexed documents..." required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                    
+                    <div class="search-filters">
+                        <label>
+                            <input type="checkbox" id="filter-semantic" checked> Semantic
+                        </label>
+                        <label>
+                            <input type="checkbox" id="filter-keyword" checked> Keyword (BM25)
+                        </label>
+                        <label>
+                            Top-K: <input type="number" id="filter-topk" value="5" min="1" max="20" class="num-input">
+                        </label>
+                    </div>
+                </section>
+                
+                <section class="search-results-section">
+                    <div class="results-header">
+                        <h2 id="results-count">0 Results Found</h2>
+                    </div>
+                    <div id="results-container" class="results-container">
+                        <!-- Search result cards injected here -->
+                        <div class="empty-state">Enter a query to see retrieval results</div>
+                    </div>
+                    
+                    <div class="pagination-controls" style="display: none;">
+                        <button class="btn btn-secondary">Previous</button>
+                        <span>Page 1 of 1</span>
+                        <button class="btn btn-secondary">Next</button>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script type="module" src="assets/js/config.js"></script>
+    <script type="module" src="assets/js/utils.js"></script>
+    <script type="module" src="assets/js/api.js"></script>
+    <script type="module" src="assets/js/pages/search.js"></script>
+</body>
+</html>

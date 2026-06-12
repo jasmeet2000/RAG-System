@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - RAG System</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/pages/analytics.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>RAG System</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html">Dashboard</a>
+                <a href="chat.html">Chat</a>
+                <a href="upload.html">Upload</a>
+                <a href="search.html">Search</a>
+                <a href="analytics.html" class="active">Analytics</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <h1>Performance Analytics</h1>
+                <div class="header-actions">
+                    <button id="refresh-analytics" class="btn btn-secondary">Refresh</button>
+                    <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+                </div>
+            </header>
+
+            <main class="main-content analytics-content">
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Queries</h3>
+                        <p id="total-queries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Retrieval Latency</h3>
+                        <p id="retrieval-latency">0 ms</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Generation Latency</h3>
+                        <p id="generation-latency">0 s</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Confidence Score</h3>
+                        <p id="confidence-score">0%</p>
+                    </div>
+                </section>
+                
+                <section class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Query Volume (Last 7 Days)</h3>
+                        <div class="chart-container" id="query-volume-chart">
+                            <!-- Custom JS Canvas/SVG Chart will be drawn here -->
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Latency Breakdown</h3>
+                        <div class="chart-container" id="latency-chart">
+                            <!-- Custom JS Canvas/SVG Chart will be drawn here -->
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script type="module" src="assets/js/config.js"></script>
+    <script type="module" src="assets/js/utils.js"></script>
+    <script type="module" src="assets/js/api.js"></script>
+    <script type="module" src="assets/js/pages/analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+# ══════════════════════════════════════════════════════════════════════
+# Production Dependencies — RAG System
+# ══════════════════════════════════════════════════════════════════════
+# Install: pip install -r requirements.txt
+#
+# Version pinning strategy:
+# - Major.Minor pinned (e.g., >=0.115,<1.0) — allows patch updates
+# - This prevents breaking changes while getting security fixes
+# - In production, use exact pins (==) with pip-compile for reproducibility
+# ══════════════════════════════════════════════════════════════════════
+
+# ── Web Framework ───────────────────────────────────────────────────
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30,<1.0
+python-multipart>=0.0.9       # Required for file uploads in FastAPI
+
+# ── Configuration ───────────────────────────────────────────────────
+pydantic>=2.0,<3.0
+pydantic-settings>=2.0,<3.0
+
+# ── Document Parsing ───────────────────────────────────────────────
+PyMuPDF>=1.24,<2.0            # PDF parsing (imported as 'fitz')
+python-docx>=1.1,<2.0         # DOCX parsing
+markdown-it-py>=3.0,<4.0      # Markdown parsing
+
+# ── Embeddings ──────────────────────────────────────────────────────
+sentence-transformers>=3.0,<4.0
+torch>=2.0                     # PyTorch (CPU version installed by default)
+
+# ── Vector Database ─────────────────────────────────────────────────
+qdrant-client>=1.12,<2.0
+
+# ── Sparse Retrieval ───────────────────────────────────────────────
+rank-bm25>=0.2.2,<1.0
+
+# ── Re-ranking ──────────────────────────────────────────────────────
+# Cross-encoder models use sentence-transformers (already included above)
+
+# ── LLM Client ─────────────────────────────────────────────────────
+httpx>=0.27,<1.0               # Async HTTP client for Ollama API
+ollama>=0.3.0,<1.0             # Official Ollama Python client
+
+# ── Logging ─────────────────────────────────────────────────────────
+loguru>=0.7,<1.0
+
+# ── Evaluation ──────────────────────────────────────────────────────
+ragas>=0.2,<1.0
+datasets>=2.0,<3.0             # HuggingFace datasets (used by RAGAS)
+
+# ── Utilities ───────────────────────────────────────────────────────
+tenacity>=8.0,<10.0            # Retry with exponential backoff
+numpy>=1.26,<3.0

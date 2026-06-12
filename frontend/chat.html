@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - RAG System</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/pages/chat.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>RAG System</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html">Dashboard</a>
+                <a href="chat.html" class="active">Chat</a>
+                <a href="upload.html">Upload</a>
+                <a href="search.html">Search</a>
+                <a href="analytics.html">Analytics</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <header class="top-header">
+                <h1>Chat & Generation</h1>
+                <div class="header-actions">
+                    <button id="clear-chat" class="btn btn-secondary">Clear Chat</button>
+                    <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+                </div>
+            </header>
+
+            <main class="main-content chat-content">
+                <div id="chat-history" class="chat-history">
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            <p>Hello! I am your RAG assistant. Ask me any question about your indexed documents.</p>
+                        </div>
+                    </div>
+                    <!-- Messages will be injected here -->
+                </div>
+                
+                <div class="chat-input-container">
+                    <form id="chat-form">
+                        <textarea id="chat-input" placeholder="Ask a question..." rows="1" required></textarea>
+                        <button type="submit" id="send-btn" class="btn btn-primary" aria-label="Send Message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Chat dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module" src="assets/js/config.js"></script>
+    <script type="module" src="assets/js/utils.js"></script>
+    <script type="module" src="assets/js/api.js"></script>
+    <script type="module" src="assets/js/pages/chat.js"></script>
+</body>
+</html>

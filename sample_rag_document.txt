@@ -1,0 +1,4 @@
+The secret passcode for the server room is 'Antigravity2026'.
+The server room is located on the 4th floor, behind the blue door.
+To access the server room, you must swipe your badge and then enter the passcode on the keypad.
+If the alarm sounds, immediately contact the Head of IT Security, Mr. John Anderson.
