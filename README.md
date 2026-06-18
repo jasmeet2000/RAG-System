@@ -274,3 +274,10 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - [Ollama](https://ollama.ai/) for local LLM serving
 - [RAGAS](https://docs.ragas.io/) for evaluation framework
 - [FastAPI](https://fastapi.tiangolo.com/) for the web framework
+
+
+## Screenshot :)
+
+Check the doc\screenshot 
+
+![RAG Dashboard](docs/screenshot/rag_chat.png)
