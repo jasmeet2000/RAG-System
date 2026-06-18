@@ -276,8 +276,8 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - [FastAPI](https://fastapi.tiangolo.com/) for the web framework
 
 
-## Screenshot :)
+## 📸 Screenshot
 
 Check the doc\screenshot 
 
-![RAG Dashboard](docs/screenshot/rag_chat.png)
+![RAG Chat](docs/screenshot/rag_chat.png)
