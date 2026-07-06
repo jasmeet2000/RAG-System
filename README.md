@@ -127,7 +127,7 @@ Visit **http://localhost:8000/docs** for the interactive API documentation.
 
 ### 4. Run the Frontend Dashboard
 
-To view the UI, simply serve the `frontend` directory using any local web server:
+To view the UI, simply serve the `frontend` directory using any local web server:-
 
 ```bash
 cd frontend
