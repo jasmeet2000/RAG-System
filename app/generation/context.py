@@ -47,7 +47,10 @@ def build_context(chunks: List[RetrievedChunk]) -> Tuple[str, List[Dict[str, Any
         # Extract metadata
         meta = chunk.metadata
         filename = meta.get("filename", "Unknown Document")
+        title = meta.get("title", filename)
         author = meta.get("author", "Unknown Author")
+        page_count = meta.get("page_count")
+        chunk_index = meta.get("chunk_index", 0)
         
         # Build the context block for this specific chunk
         # We wrap each chunk in [Document X] tags so the LLM can reference it.
@@ -59,14 +62,33 @@ def build_context(chunks: List[RetrievedChunk]) -> Tuple[str, List[Dict[str, Any
         )
         context_parts.append(chunk_text)
 
+        # Determine retrieval method from source_type set during retrieval
+        source_type = getattr(chunk, "source_type", "dense")
+        if source_type == "hybrid_both":
+            retrieval_method = "Hybrid"
+        elif source_type == "hybrid_sparse":
+            retrieval_method = "BM25"
+        else:
+            retrieval_method = "Semantic"
+
+        # Truncate content to a 300-char snippet for the API response
+        snippet = chunk.content[:300]
+        if len(chunk.content) > 300:
+            snippet += "…"
+
         # Build the citation metadata for the API response
         # The frontend uses this to show the user exactly where the data came from.
         citations.append({
             "id": index,
             "document_id": chunk.document_id,
             "filename": filename,
+            "title": title,
             "source": meta.get("source", "Unknown"),
-            "score": chunk.score,  # Useful for debugging
+            "score": chunk.score,  # Now normalized 0-1 by the reranker
+            "text": snippet,
+            "chunk_index": chunk_index,
+            "page": page_count,
+            "retrieval_method": retrieval_method,
         })
 
     # Join with clear separators

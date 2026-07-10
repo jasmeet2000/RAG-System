@@ -26,6 +26,7 @@ the industry-standard two-stage retrieval pattern:
   Output:  Sorted, filtered List of RetrievedChunk
 """
 
+import math
 import time
 from typing import List, Optional
 
@@ -117,9 +118,10 @@ class RerankerService:
                 detail=str(e),
             ) from e
 
-        # Update the scores on the chunk objects
+        # Normalize raw logits to [0, 1] via sigmoid so the frontend
+        # can display them as meaningful 0-100% relevance scores.
         for chunk, score in zip(candidates, scores):
-            chunk.score = float(score)
+            chunk.score = 1.0 / (1.0 + math.exp(-float(score)))
 
         # Sort descending by the new CrossEncoder score
         candidates.sort(key=lambda x: x.score, reverse=True)

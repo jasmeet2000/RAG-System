@@ -89,15 +89,18 @@ export const API = {
         }
     },
     
-    async search(query) { 
+    async search(query, options = {}) { 
+        const top_k = options.top_k !== undefined ? options.top_k : CONFIG.getTopK();
+        const hybrid_search = options.hybrid_search !== undefined ? options.hybrid_search : true;
+
         return this.request('/api/v1/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 query: query,
-                top_k: CONFIG.getTopK(),
+                top_k: top_k,
                 stream: false,
-                hybrid_search: true
+                hybrid_search: hybrid_search
             })
         });
     },

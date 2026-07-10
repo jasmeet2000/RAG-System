@@ -144,6 +144,9 @@
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
     transition:
         transform var(--transition-medium),
         box-shadow var(--transition-medium),
@@ -158,22 +161,46 @@
     border-color: var(--primary);
 }
 
-.result-meta {
+/* ── Result Header (title + score) ───────────── */
+.result-header {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-bottom: var(--space-3);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    align-items: flex-start;
+    gap: var(--space-4);
 }
 
-.score-badge {
-    background-color: var(--primary);
-    color: var(--primary-text);
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
+.result-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.result-title {
+    font-size: 1rem;
     font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-filename {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
+/* ── Score Badge — color-coded ────────────────── */
+.score-badge {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     transition: transform var(--transition-medium);
 }
 
@@ -181,10 +208,57 @@
     transform: scale(1.08);
 }
 
+.score-high {
+    background-color: var(--success);
+    color: #fff;
+}
+
+.score-mid {
+    background-color: var(--warning, #e2a300);
+    color: #fff;
+}
+
+.score-low {
+    background-color: var(--error);
+    color: #fff;
+}
+
+/* ── Result Content / Snippet ─────────────────── */
 .result-content {
-    color: var(--text-primary);
-    line-height: 1.6;
-    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-size: 0.9rem;
+}
+
+/* ── Result Footer (metadata tags) ────────────── */
+.result-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.meta-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-surface-hover);
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.method-tag {
+    background-color: var(--primary-glow);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.result-latency {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--text-muted);
 }
 
 /* ── Pagination ──────────────────────────────────────────────── */
@@ -198,3 +272,4 @@
     color: var(--text-secondary);
     font-size: 0.875rem;
 }
+

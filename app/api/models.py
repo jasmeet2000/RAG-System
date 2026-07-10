@@ -72,8 +72,13 @@ class SearchCitation(BaseModel):
     id: int
     document_id: str
     filename: str
+    title: str = Field(default="Untitled", description="Human-readable document title")
     source: str
-    score: float
+    score: float = Field(..., description="Normalized relevance score between 0.0 and 1.0")
+    text: str = Field(default="", description="Snippet preview of the chunk content (up to 300 chars)")
+    chunk_index: int = Field(default=0, description="Position of this chunk within the document")
+    page: Optional[int] = Field(default=None, description="Page number if available (PDFs)")
+    retrieval_method: str = Field(default="Semantic", description="How this chunk was retrieved")
 
 
 class SearchResponse(BaseModel):
