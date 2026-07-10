@@ -36,7 +36,6 @@
     border-color: var(--primary);
     background-color: var(--bg-surface-hover);
     box-shadow: 0 0 0 4px var(--primary-glow);
-    transform: translateY(-2px);
 }
 
 .dropzone.dragover {
@@ -112,7 +111,7 @@
     gap: var(--space-3);
 }
 
-/* ── Upload Item — hover lift + border accent ────────────────── */
+/* ── Upload Item — hover lift ────────────────── */
 .upload-item {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -126,30 +125,13 @@
         transform var(--transition-medium),
         box-shadow var(--transition-medium),
         border-color var(--transition-medium);
+    will-change: transform;
 }
 
 .upload-item:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
     border-color: var(--primary);
-}
-
-/* Left accent bar on hover */
-.upload-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background-color: var(--primary);
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-    transform: scaleY(0);
-    transition: transform var(--transition-medium);
-}
-
-.upload-item:hover::before {
-    transform: scaleY(1);
 }
 
 .upload-item-header {
