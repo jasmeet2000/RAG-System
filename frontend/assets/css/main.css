@@ -54,9 +54,15 @@ h1, h2, h3, h4, h5, h6 {
     transition: all var(--transition-fast);
 }
 
-.sidebar-nav a:hover {
+.sidebar-nav a:hover,
+.sidebar-nav a:focus-visible {
     background-color: var(--bg-surface-hover);
     color: var(--text-primary);
+    transform: translateX(4px);
+}
+
+.sidebar-nav a:active {
+    transform: translateX(2px);
 }
 
 .sidebar-nav a.active {

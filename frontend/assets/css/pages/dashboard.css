@@ -1,4 +1,16 @@
-/* Dashboard Layout */
+/* ═══════════════════════════════════════════════════════════════
+   Dashboard Page — Layout & Hover Interactions
+   
+   Hover philosophy:
+   • Cards  → subtle lift (translateY) + elevated shadow + border glow
+   • List   → left accent bar + background tint
+   • Buttons → scale nudge + shadow pop
+   • Nav    → translateX slide (shared, scoped via .dashboard-content body)
+   • All hover effects mirrored to :focus-visible for keyboard parity
+   • prefers-reduced-motion removes transforms, keeps color shifts
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Dashboard Layout ────────────────────────────────────────── */
 .dashboard-content {
     width: 100%;
     max-width: 1400px;
@@ -6,6 +18,7 @@
     align-self: center;
 }
 
+/* ── Stats Grid ──────────────────────────────────────────────── */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Force 4 columns side by side */
@@ -13,8 +26,15 @@
     margin-bottom: var(--space-8);
 }
 
+/* ── Stat Cards — base ───────────────────────────────────────── */
 .stat-card {
     padding: var(--space-6);
+    position: relative;
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        border-color var(--transition-medium);
+    will-change: transform;
 }
 
 .stat-card h3 {
@@ -22,6 +42,7 @@
     font-weight: 500;
     color: var(--text-secondary);
     margin-bottom: var(--space-2);
+    transition: color var(--transition-medium);
 }
 
 .stat-card p {
@@ -35,7 +56,37 @@
 .stat-card p.status-error { color: var(--error); }
 .stat-card p.status-warning { color: var(--warning); }
 
-/* Quick Actions */
+/* ── Stat Cards — hover & focus ──────────────────────────────── */
+.stat-card:hover,
+.stat-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.stat-card:hover h3,
+.stat-card:focus-visible h3 {
+    color: var(--text-primary);
+}
+
+/* Subtle bottom-edge accent glow on hover */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+    pointer-events: none;
+    box-shadow: inset 0 -2px 0 0 var(--primary);
+}
+
+.stat-card:hover::after,
+.stat-card:focus-visible::after {
+    opacity: 1;
+}
+
+/* ── Quick Actions ───────────────────────────────────────────── */
 .quick-actions h2 {
     font-size: 1.25rem;
     margin-bottom: var(--space-4);
@@ -55,14 +106,24 @@
     color: var(--primary);
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        border-color var(--transition-medium),
+        background-color var(--transition-medium),
+        color var(--transition-medium);
 }
 
-.action-cards .card:hover {
+.action-cards .card:hover,
+.action-cards .card:focus-visible {
+    transform: translateY(-2px) scale(1.01);
     border-color: var(--primary);
     background-color: var(--bg-surface-hover);
+    box-shadow: var(--shadow-md);
+    color: var(--primary-hover);
 }
 
-/* Recent Activity */
+/* ── Recent Activity ─────────────────────────────────────────── */
 .recent-activity h2 {
     font-size: 1.25rem;
     margin-bottom: var(--space-4);
@@ -79,10 +140,42 @@
     padding: var(--space-4) var(--space-6);
     border-bottom: 1px solid var(--border-color);
     color: var(--text-secondary);
+    position: relative;
+    transition:
+        background-color var(--transition-medium),
+        color var(--transition-medium),
+        padding-left var(--transition-medium);
 }
 
 .activity-list li:last-child {
     border-bottom: none;
+}
+
+/* Left accent bar — hidden by default */
+.activity-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--primary);
+    transform: scaleY(0);
+    transition: transform var(--transition-medium);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Row hover — background tint + text brighten + accent bar reveal */
+.activity-list li:hover,
+.activity-list li:focus-visible {
+    background-color: var(--primary-glow);
+    color: var(--text-primary);
+    padding-left: calc(var(--space-6) + 6px);
+}
+
+.activity-list li:hover::before,
+.activity-list li:focus-visible::before {
+    transform: scaleY(1);
 }
 
 .activity-list .empty-state {
@@ -90,4 +183,89 @@
     color: var(--text-muted);
     font-style: italic;
     padding: var(--space-8);
+}
+
+/* Empty-state should not show the accent bar on hover */
+.activity-list .empty-state:hover {
+    background-color: transparent;
+    color: var(--text-muted);
+    padding-left: var(--space-8);
+}
+
+.activity-list .empty-state::before {
+    display: none;
+}
+
+/* ── Dashboard Pagination Buttons ────────────────────────────── */
+.dashboard-content .pagination-btn {
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.dashboard-content .pagination-btn:hover:not(:disabled),
+.dashboard-content .pagination-btn:focus-visible:not(:disabled) {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: var(--shadow-md);
+}
+
+.dashboard-content .pagination-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── Theme Toggle (header) — scoped to Dashboard ────────────── */
+.dashboard-content ~ .top-header #theme-toggle,
+.top-header #theme-toggle {
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-medium);
+}
+
+.dashboard-content ~ .top-header #theme-toggle:hover,
+.top-header #theme-toggle:hover {
+    transform: rotate(20deg) scale(1.1);
+}
+
+.dashboard-content ~ .top-header #theme-toggle:active,
+.top-header #theme-toggle:active {
+    transform: rotate(0deg) scale(0.95);
+}
+
+/* ── Accessibility: Reduced Motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .stat-card,
+    .action-cards .card,
+    .activity-list li,
+    .dashboard-content .pagination-btn,
+    .top-header #theme-toggle {
+        transition-duration: 0.01ms !important;
+        transform: none !important;
+    }
+
+    .stat-card::after,
+    .activity-list li::before {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ── Responsive: Stack cards on smaller screens ──────────────── */
+@media (max-width: 900px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .stats-grid,
+    .action-cards {
+        grid-template-columns: 1fr;
+    }
 }
