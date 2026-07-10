@@ -105,11 +105,18 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.25rem;
     padding: var(--space-2);
     border-radius: var(--radius-full);
-    transition: background-color var(--transition-fast);
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-medium);
 }
 
 #theme-toggle:hover {
     background-color: var(--bg-surface-hover);
+    transform: rotate(20deg) scale(1.1);
+}
+
+#theme-toggle:active {
+    transform: rotate(0deg) scale(0.95);
 }
 
 /* Reusable Content Area */
@@ -125,7 +132,19 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        border-color var(--transition-medium),
+        background-color var(--transition-normal);
+    will-change: transform;
+}
+
+.card:hover, .stat-card:hover, .chart-card:hover,
+.card:focus-visible, .stat-card:focus-visible, .chart-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
 }
 
 /* Buttons */
@@ -137,8 +156,23 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: var(--radius-md);
     font-weight: 500;
     font-size: 0.875rem;
-    transition: all var(--transition-fast);
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium);
     gap: var(--space-2);
+}
+
+.btn:hover,
+.btn:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-primary {
@@ -146,7 +180,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary-text);
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus-visible {
     background-color: var(--primary-hover);
 }
 
@@ -155,7 +190,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--secondary-text);
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
     background-color: var(--secondary-hover);
 }
 
@@ -173,13 +209,21 @@ textarea {
     color: var(--text-primary);
     font-family: inherit;
     font-size: 0.95rem;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition:
+        border-color var(--transition-medium),
+        box-shadow var(--transition-medium),
+        background-color var(--transition-medium);
 }
 
-input:focus, select:focus, textarea:focus {
+input:hover, select:hover, textarea:hover {
+    border-color: var(--border-light);
+}
+
+input:focus, select:focus, textarea:focus,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 /* Form Groups */
@@ -224,13 +268,26 @@ input:focus, select:focus, textarea:focus {
     color: var(--text-primary);
     cursor: pointer;
     font-size: 0.875rem;
-    transition: all var(--transition-fast);
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium);
 }
 
-.pagination-btn:hover:not(:disabled) {
+.pagination-btn:hover:not(:disabled),
+.pagination-btn:focus-visible:not(:disabled) {
     background-color: var(--primary);
     color: var(--primary-text);
     border-color: var(--primary);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: var(--shadow-md);
+}
+
+.pagination-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+    box-shadow: var(--shadow-sm);
 }
 
 .pagination-btn:disabled {
@@ -241,4 +298,18 @@ input:focus, select:focus, textarea:focus {
 .pagination-info {
     font-size: 0.875rem;
     color: var(--text-secondary);
+}
+
+/* ── Accessibility: Reduced Motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+    .btn, .card, .stat-card, .chart-card,
+    .pagination-btn, #theme-toggle,
+    .sidebar-nav a {
+        transform: none !important;
+    }
 }

@@ -1,4 +1,14 @@
-/* Analytics Layout */
+/* ═══════════════════════════════════════════════════════════════
+   Analytics Page — Layout & Hover Interactions
+   
+   Elements enhanced:
+   • Stat cards → use shared hover utility from main.css (lift + shadow + glow)
+   • Chart cards → lift + shadow + border glow + inner chart subtle scale
+   • Note: The stat-card and chart-card base classes are in main.css. 
+     This file adds the page-specific layout and inner chart hover effects.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Analytics Layout ────────────────────────────────────────── */
 .analytics-content {
     width: 100%;
     max-width: 1400px;
@@ -6,7 +16,7 @@
     align-self: center; /* Centers the flex item horizontally */
 }
 
-/* Stats Grid */
+/* ── Stats Grid ──────────────────────────────────────────────── */
 .stats-grid {
     display: grid;
     /* Force 4 columns on desktop, 2 on tablet, 1 on mobile */
@@ -27,6 +37,12 @@
     font-weight: 500;
     color: var(--text-secondary);
     margin-bottom: var(--space-2);
+    transition: color var(--transition-medium);
+}
+
+.stat-card:hover h3,
+.stat-card:focus-visible h3 {
+    color: var(--text-primary);
 }
 
 .stat-card p {
@@ -35,7 +51,7 @@
     color: var(--primary);
 }
 
-/* Charts Grid */
+/* ── Charts Grid ─────────────────────────────────────────────── */
 .charts-grid {
     display: grid;
     /* Force 2 columns so they are side by side */
@@ -47,6 +63,27 @@
     padding: var(--space-6);
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+/* Subtle top accent bar on hover for charts */
+.chart-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    transform: scaleX(0);
+    transition: transform var(--transition-medium);
+    transform-origin: center;
+}
+
+.chart-card:hover::before,
+.chart-card:focus-visible::before {
+    transform: scaleX(1);
 }
 
 .chart-card h3 {
@@ -58,7 +95,7 @@
     padding-bottom: var(--space-2);
 }
 
-/* Canvas/SVG container */
+/* ── Chart Container ─────────────────────────────────────────── */
 .chart-container {
     width: 100%;
     height: 300px;
@@ -71,9 +108,18 @@
     justify-content: center;
     color: var(--text-muted);
     font-size: 0.875rem;
+    transition:
+        background-color var(--transition-medium),
+        border-color var(--transition-medium);
 }
 
-/* Responsive adjustments */
+.chart-card:hover .chart-container,
+.chart-card:focus-visible .chart-container {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--primary);
+}
+
+/* ── Responsive adjustments ──────────────────────────────────── */
 @media (max-width: 768px) {
     .charts-grid {
         grid-template-columns: 1fr;

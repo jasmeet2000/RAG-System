@@ -1,10 +1,20 @@
-/* Upload Layout */
+/* ═══════════════════════════════════════════════════════════════
+   Upload Page — Layout & Hover Interactions
+   
+   Elements enhanced:
+   • Dropzone  → border glow pulse + icon color shift + scale nudge
+   • Upload items → left accent bar + background tint (mirrors dashboard list)
+   • Progress bars → smooth width transition (existing, preserved)
+   • Supported formats badge → subtle background shift on dropzone hover
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Upload Layout ───────────────────────────────────────────── */
 .upload-content > * {
     max-width: 800px;
     margin: 0 auto;
 }
 
-/* Dropzone */
+/* ── Dropzone ────────────────────────────────────────────────── */
 .dropzone {
     border: 2px dashed var(--border-color);
     border-radius: var(--radius-lg);
@@ -12,13 +22,28 @@
     padding: var(--space-12) var(--space-6);
     text-align: center;
     cursor: pointer;
-    transition: all var(--transition-normal);
     margin-bottom: var(--space-8);
+    position: relative;
+    transition:
+        border-color var(--transition-medium),
+        background-color var(--transition-medium),
+        box-shadow var(--transition-medium),
+        transform var(--transition-medium);
 }
 
-.dropzone:hover, .dropzone.dragover {
+.dropzone:hover,
+.dropzone:focus-visible {
     border-color: var(--primary);
     background-color: var(--bg-surface-hover);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    transform: translateY(-2px);
+}
+
+.dropzone.dragover {
+    border-color: var(--primary);
+    background-color: var(--primary-glow);
+    box-shadow: 0 0 0 4px var(--primary-glow), var(--shadow-lg);
+    transform: scale(1.01);
 }
 
 .dropzone-content {
@@ -28,13 +53,20 @@
     gap: var(--space-2);
 }
 
+/* ── Dropzone Icon ───────────────────────────────────────────── */
 .upload-icon {
     color: var(--text-muted);
     margin-bottom: var(--space-2);
+    transition:
+        color var(--transition-medium),
+        transform var(--transition-medium);
 }
 
-.dropzone:hover .upload-icon, .dropzone.dragover .upload-icon {
+.dropzone:hover .upload-icon,
+.dropzone:focus-visible .upload-icon,
+.dropzone.dragover .upload-icon {
     color: var(--primary);
+    transform: translateY(-4px);
 }
 
 .dropzone h3 {
@@ -45,8 +77,14 @@
 
 .dropzone p {
     color: var(--text-secondary);
+    transition: color var(--transition-medium);
 }
 
+.dropzone:hover p {
+    color: var(--text-primary);
+}
+
+/* ── Supported Formats Badge ─────────────────────────────────── */
 .supported-formats {
     display: inline-block;
     margin-top: var(--space-4);
@@ -55,9 +93,14 @@
     background-color: var(--bg-base);
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
+    transition: background-color var(--transition-medium);
 }
 
-/* Upload Queue */
+.dropzone:hover .supported-formats {
+    background-color: var(--bg-surface);
+}
+
+/* ── Upload Queue ────────────────────────────────────────────── */
 .upload-progress-section h2 {
     font-size: 1.25rem;
     margin-bottom: var(--space-4);
@@ -69,6 +112,7 @@
     gap: var(--space-3);
 }
 
+/* ── Upload Item — hover lift + border accent ────────────────── */
 .upload-item {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
@@ -77,6 +121,35 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    position: relative;
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        border-color var(--transition-medium);
+}
+
+.upload-item:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+/* Left accent bar on hover */
+.upload-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--primary);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    transform: scaleY(0);
+    transition: transform var(--transition-medium);
+}
+
+.upload-item:hover::before {
+    transform: scaleY(1);
 }
 
 .upload-item-header {
@@ -93,13 +166,14 @@
 .file-status {
     font-size: 0.875rem;
     color: var(--text-secondary);
+    transition: color var(--transition-medium);
 }
 
 .file-status.success { color: var(--success); }
 .file-status.error { color: var(--error); }
 .file-status.uploading { color: var(--info); }
 
-/* Progress Bar */
+/* ── Progress Bar ────────────────────────────────────────────── */
 .progress-bar-container {
     width: 100%;
     height: 6px;

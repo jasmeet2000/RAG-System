@@ -1,4 +1,13 @@
-/* Settings Layout */
+/* ═══════════════════════════════════════════════════════════════
+   Settings Page — Layout & Hover Interactions
+   
+   Elements enhanced:
+   • Settings sections (cards) → lift + shadow + border glow (shared from main.css)
+   • Form groups → left accent bar highlight on focus-within / hover
+   • Help text → brightens on hover
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Settings Layout ─────────────────────────────────────────── */
 .settings-content {
     width: 100%;
     max-width: 1200px;
@@ -12,12 +21,46 @@
     gap: var(--space-8);
 }
 
+/* ── Settings Section (Card) ─────────────────────────────────── */
 .settings-section {
     background-color: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
     box-shadow: var(--shadow-sm);
+    position: relative;
+    transition:
+        transform var(--transition-medium),
+        box-shadow var(--transition-medium),
+        border-color var(--transition-medium);
+    will-change: transform;
+}
+
+.settings-section:hover,
+.settings-section:focus-within {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+/* Top accent bar on hover/focus */
+.settings-section::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    transform: scaleX(0);
+    transition: transform var(--transition-medium);
+    transform-origin: left;
+}
+
+.settings-section:hover::before,
+.settings-section:focus-within::before {
+    transform: scaleX(1);
 }
 
 .settings-section h2 {
@@ -29,16 +72,59 @@
     padding-bottom: var(--space-2);
 }
 
-/* Adjust form groups within settings to have max width for readability */
+/* ── Form Groups within Settings ─────────────────────────────── */
 .settings-section .form-group {
     max-width: 500px;
+    position: relative;
+    padding-left: var(--space-4);
+    margin-left: calc(var(--space-4) * -1); /* Offset padding */
+    transition: background-color var(--transition-medium);
+    border-radius: var(--radius-md);
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
 }
 
 .settings-section .form-group:last-child {
     margin-bottom: 0;
 }
 
-/* Actions at bottom */
+/* Subtle background highlight for the active form group */
+.settings-section .form-group:hover,
+.settings-section .form-group:focus-within {
+    background-color: var(--bg-surface-hover);
+}
+
+/* Left accent pip for the active form group */
+.settings-section .form-group::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 70%;
+    background-color: var(--primary);
+    border-radius: var(--radius-full);
+    transition: transform var(--transition-medium);
+}
+
+.settings-section .form-group:hover::before,
+.settings-section .form-group:focus-within::before {
+    transform: translateY(-50%) scaleY(1);
+}
+
+/* ── Help Text ───────────────────────────────────────────────── */
+/* Base help text style is in main.css, we just add the hover transition here */
+.settings-section .help-text {
+    transition: color var(--transition-medium);
+}
+
+.settings-section .form-group:hover .help-text,
+.settings-section .form-group:focus-within .help-text {
+    color: var(--text-secondary);
+}
+
+/* ── Actions at bottom ───────────────────────────────────────── */
 .settings-actions {
     grid-column: 1 / -1;
     display: flex;
