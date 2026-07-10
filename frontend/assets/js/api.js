@@ -116,5 +116,9 @@ export const API = {
     
     async getDocuments() {
         return this.request('/api/v1/documents', { method: 'GET' });
+    },
+    
+    async deleteDocument(documentId) {
+        return this.request(`/api/v1/documents/${documentId}`, { method: 'DELETE' });
     }
 };

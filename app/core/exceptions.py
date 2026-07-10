@@ -63,6 +63,12 @@ class DocumentLoadError(RAGSystemError):
     pass
 
 
+class DocumentNotFoundError(RAGSystemError):
+    """Raised when trying to interact with a document that does not exist in the system."""
+
+    pass
+
+
 class ChunkingError(RAGSystemError):
     """Raised when text chunking fails.
 

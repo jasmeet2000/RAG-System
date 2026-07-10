@@ -140,11 +140,34 @@ function renderList() {
         }
 
         li.innerHTML = `
-            <div class="upload-item-header">
-                <span class="file-name">📄 ${doc.filename}</span>
-                <span class="file-status" style="opacity: 0.7;">${timeStr}</span>
+            <div class="upload-item-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <span class="file-name">📄 ${doc.filename}</span>
+                    <span class="file-status" style="opacity: 0.7;">${timeStr}</span>
+                </div>
+                <button class="btn delete-doc-btn" data-id="${doc.document_id}" style="padding: 4px 12px; font-size: 0.8rem; background: var(--error); border: none; color: white; cursor: pointer; border-radius: 4px; transition: opacity 0.2s;">Delete</button>
             </div>
         `;
+
+        const deleteBtn = li.querySelector('.delete-doc-btn');
+        deleteBtn.addEventListener('click', async () => {
+            if (confirm(`Are you sure you want to delete "${doc.filename}"? This action cannot be undone.`)) {
+                deleteBtn.textContent = 'Deleting...';
+                deleteBtn.disabled = true;
+                deleteBtn.style.opacity = '0.5';
+                try {
+                    await API.deleteDocument(doc.document_id);
+                    showNotification(`Document ${doc.filename} deleted successfully`, 'success');
+                    loadRecentDocuments();
+                } catch (error) {
+                    showNotification(`Failed to delete document: ${error.message}`, 'error');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.disabled = false;
+                    deleteBtn.style.opacity = '1';
+                }
+            }
+        });
+
         recentUploadsList.appendChild(li);
     });
 }

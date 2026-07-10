@@ -165,12 +165,31 @@ def search_similar(
         raise VectorDBError(f"Vector search failed: {str(e)}") from e
 
 
-def delete_document(document_id: str) -> None:
+def document_exists(identifier: str) -> bool:
     """
-    Delete all chunks associated with a specific document ID.
-    
-    This shows the power of payload indexing. We can tell Qdrant:
-    "Delete all vectors where payload.document_id == X".
+    Check if a document exists in the vector database by ID or filename.
+    """
+    client = get_qdrant_client()
+    try:
+        count_result = client.count(
+            collection_name=settings.QDRANT_COLLECTION_NAME,
+            count_filter=models.Filter(
+                should=[
+                    models.FieldCondition(key="document_id", match=models.MatchValue(value=identifier)),
+                    models.FieldCondition(key="filename", match=models.MatchValue(value=identifier))
+                ]
+            ),
+            exact=True
+        )
+        return count_result.count > 0
+    except Exception as e:
+        logger.error(f"Failed to check document existence: {e}")
+        return False
+
+
+def delete_document(identifier: str) -> None:
+    """
+    Delete all chunks associated with a specific document ID or filename.
     """
     client = get_qdrant_client()
     
@@ -179,16 +198,14 @@ def delete_document(document_id: str) -> None:
             collection_name=settings.QDRANT_COLLECTION_NAME,
             points_selector=models.FilterSelector(
                 filter=models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="document_id",
-                            match=models.MatchValue(value=document_id)
-                        )
+                    should=[
+                        models.FieldCondition(key="document_id", match=models.MatchValue(value=identifier)),
+                        models.FieldCondition(key="filename", match=models.MatchValue(value=identifier))
                     ]
                 )
             ),
         )
-        logger.info(f"Deleted all chunks for document {document_id}")
+        logger.info(f"Deleted all chunks for document identifier {identifier}")
     except Exception as e:
         raise VectorDBError(f"Failed to delete document: {str(e)}") from e
 

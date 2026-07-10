@@ -24,7 +24,7 @@ from typing import Dict, Any, Tuple, AsyncGenerator, Optional, List
 
 from app.api.models import StreamEvent
 from app.core.config import settings
-from app.core.exceptions import RAGPipelineError
+from app.core.exceptions import RAGPipelineError, DocumentNotFoundError
 from app.core.logging import get_logger
 
 # Ingestion
@@ -34,7 +34,7 @@ from app.ingestion.chunker import get_chunker
 
 # Embeddings & Vector DB
 from app.embeddings.service import get_embedding_service
-from app.vectordb.operations import upsert_chunks, delete_document as vdb_delete_document, list_documents as vdb_list_documents
+from app.vectordb.operations import upsert_chunks, delete_document as vdb_delete_document, list_documents as vdb_list_documents, document_exists
 
 # Retrieval & Re-ranking
 from app.retrieval.dense import retrieve_dense
@@ -208,6 +208,9 @@ class RAGPipeline:
 
     async def delete_document(self, document_id: str) -> None:
         """Remove a document from the system completely."""
+        if not document_exists(document_id):
+            raise DocumentNotFoundError(f"Document '{document_id}' not found in the knowledge base.")
+
         try:
             vdb_delete_document(document_id)
             rebuild_bm25_index()

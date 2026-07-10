@@ -104,6 +104,8 @@ async def upload_document(
             logger.debug(f"Cleaned up temporary file: {temp_file_path}")
 
 
+from app.core.exceptions import DocumentNotFoundError
+
 @router.delete("/{document_id}", response_model=DeletionResponse)
 async def delete_document(
     document_id: str,
@@ -121,6 +123,9 @@ async def delete_document(
             document_id=document_id,
             message="Document and all associated chunks deleted."
         )
+    except DocumentNotFoundError as e:
+        logger.warning(f"Document not found for deletion {document_id}: {str(e)}")
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         logger.error(f"Failed to delete document {document_id}: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

@@ -1,4 +1,5 @@
 import { API } from '../api.js';
+import { showNotification } from '../utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const sysStatus = document.getElementById('system-status');
@@ -59,7 +60,37 @@ document.addEventListener('DOMContentLoaded', async () => {
                     else if (seconds < 86400) timeStr = Math.floor(seconds / 3600) + ' hours ago';
                     else timeStr = Math.floor(seconds / 86400) + ' days ago';
                 }
-                li.innerHTML = `Ingested <strong>${doc.filename}</strong> - <span style="opacity:0.7;">${timeStr}</span>`;
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.alignItems = 'center';
+                li.innerHTML = `
+                    <div>Ingested <strong>${doc.filename}</strong> - <span style="opacity:0.7;">${timeStr}</span></div>
+                    <button class="btn delete-doc-btn" data-id="${doc.document_id}" style="padding: 2px 8px; font-size: 0.75rem; background: var(--error); border: none; color: white; cursor: pointer; border-radius: 4px; transition: opacity 0.2s;">Delete</button>
+                `;
+                
+                const deleteBtn = li.querySelector('.delete-doc-btn');
+                deleteBtn.addEventListener('click', async () => {
+                    if (confirm(`Are you sure you want to delete "${doc.filename}"? This action cannot be undone.`)) {
+                        deleteBtn.textContent = 'Deleting...';
+                        deleteBtn.disabled = true;
+                        deleteBtn.style.opacity = '0.5';
+                        try {
+                            await API.deleteDocument(doc.document_id);
+                            showNotification(`Document ${doc.filename} deleted successfully`, 'success');
+                            // Refresh documents list
+                            const newDocsResponse = await API.getDocuments().catch(() => ({ documents: [] }));
+                            allDocuments.length = 0;
+                            allDocuments.push(...(newDocsResponse.documents || []));
+                            docsCount.textContent = allDocuments.length.toString();
+                            renderList();
+                        } catch (error) {
+                            showNotification(`Failed to delete document: ${error.message}`, 'error');
+                            deleteBtn.textContent = 'Delete';
+                            deleteBtn.disabled = false;
+                            deleteBtn.style.opacity = '1';
+                        }
+                    }
+                });
                 activityList.appendChild(li);
             });
         }

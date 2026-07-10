@@ -113,8 +113,52 @@ chatForm.addEventListener('submit', async (e) => {
 
 clearBtn.addEventListener('click', () => {
     chatHistory.innerHTML = '';
+    addMessage('', false); // empty AI bubble to animate into
+    const el = chatHistory.querySelector('.ai-message .message-content');
+    typeMessage(el, '👋 Hi! I\'m ready to help you explore your documents. Ask me anything, and I\'ll find the relevant information for you.');
     showNotification('Chat history cleared.', 'success');
 });
 
 // Initial scroll
 scrollToBottom();
+
+/**
+ * Reusable typing animation — shows thinking dots, then types text
+ * character-by-character at 35ms per character.
+ * @param {HTMLElement} containerEl - the .message-content element to type into
+ * @param {string} text - the full text to type out
+ */
+function typeMessage(containerEl, text) {
+    containerEl.innerHTML = '';
+
+    // Show typing indicator dots
+    const indicator = document.createElement('div');
+    indicator.className = 'typing-indicator';
+    indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    containerEl.appendChild(indicator);
+
+    setTimeout(() => {
+        indicator.remove();
+        containerEl.classList.add('typing-cursor');
+
+        let i = 0;
+        const typeInterval = setInterval(() => {
+            containerEl.textContent = text.substring(0, i + 1);
+            i++;
+            if (i >= text.length) {
+                clearInterval(typeInterval);
+                setTimeout(() => containerEl.classList.remove('typing-cursor'), 1500);
+            }
+            scrollToBottom();
+        }, 35);
+    }, 600);
+}
+
+// Welcome Message Typing Animation (runs once on page load)
+document.addEventListener('DOMContentLoaded', () => {
+    const welcomeEl = document.querySelector('.ai-message .message-content');
+    if (welcomeEl && welcomeEl.textContent.trim()) {
+        const fullText = welcomeEl.textContent.trim();
+        typeMessage(welcomeEl, fullText);
+    }
+});
