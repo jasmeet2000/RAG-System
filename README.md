@@ -4,6 +4,10 @@ A **production-grade Retrieval-Augmented Generation (RAG) system** built from fi
 
 > Built as a learning project to deeply understand how RAG systems are designed, built, optimized, evaluated, and deployed in real-world companies — without hiding behind abstraction frameworks like LangChain or LlamaIndex.
 
+## 🎥 Demo Video
+
+[Watch the RAG System Demo Video](https://drive.google.com/file/d/1aQVSfi7Vn8Fy3acF4CweQzmQXLYDlybO/view?usp=sharing)
+
 ---
 
 ## ✨ Features
